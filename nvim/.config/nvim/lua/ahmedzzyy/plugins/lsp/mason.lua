@@ -16,7 +16,7 @@ return {
 				"eslint",
 				"gopls",
 				"clangd",
-				"java_language_server",
+				"jdtls",
 			},
 		},
 	},
