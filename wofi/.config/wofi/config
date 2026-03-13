@@ -1,0 +1,7 @@
+term=ghostty
+no_actions=true
+width=36%
+line_wrap=word
+allow_images=true
+image_size=30
+colors=colors
