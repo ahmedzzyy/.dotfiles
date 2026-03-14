@@ -45,7 +45,7 @@ window {
 #entry #text {
     padding: 0px 0px 0px 10px;
     font-weight: normal;
-    color: @color7;
+    color: @foreground;
 }
 
 #entry:selected {
@@ -55,13 +55,13 @@ window {
 #entry:selected #text {
     padding: 0px 0px 0px 10px;
     font-weight: normal;
-    color: @color0;
+    color: @foreground;
 }
 
 #input {
     background-color: rgba(255, 255, 255, 0.1);
     margin: 10px 20px;
-    color: @color7;
+    color: @foreground;
     padding: 8px 16px;
 }
 
