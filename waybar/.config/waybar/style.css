@@ -1,0 +1,286 @@
+/* ═══════════════════════════════════════════════════════
+   T H E  M I D N I G H T  L I B R A R Y
+   A vertical bar. A quiet companion. A spine.
+
+   Palette:
+     Ink         #1a1b1e   — the deep page
+     Paper       #22242a   — the bar body
+     Shelf       #2a2d36   — module islands
+     Dust        #3d4151   — subtle borders
+     Moonlight   #d4c9b8   — primary text
+     Parchment   #a89880   — secondary text
+     Amber       #c9a96e   — accent / active
+     Ember       #e07b54   — warning
+     Ash         #c04f4f   — critical
+
+   Font: "Iosevka" or "JetBrains Mono" — monospace, tall, readable
+   Bar width: 60px (set in config.jsonc)
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Reset ───────────────────────────────────────────── */
+* {
+    font-family: "JetBrainsMono Nerd Font Propo", monospace;
+    font-size: 20px;
+    font-weight: 400;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    outline: none;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+    transition: color 200ms ease, background 200ms ease, opacity 200ms ease;
+}
+
+/* ── The Bar ─────────────────────────────────────────── */
+window#waybar {
+    background-color: transparent;
+    color: #d4c9b8;
+}
+
+window#waybar > box {
+    background-color: rgba(22, 23, 26, 0.94);
+    border-right: 1px solid rgba(61, 65, 81, 0.45);
+    box-shadow: 3px 0 32px rgba(0, 0, 0, 0.7),
+                inset -1px 0 0 rgba(201, 169, 110, 0.05);
+}
+
+/* ── Tooltip ─────────────────────────────────────────── */
+tooltip {
+    background-color: #22242a;
+    border: 1px solid rgba(61, 65, 81, 0.8);
+    border-radius: 8px;
+    padding: 36px;
+    color: #d4c9b8;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+}
+
+tooltip label {
+    color: #d4c9b8;
+    font-size: 16px;
+}
+
+/* ── Module section padding ──────────────────────────── */
+.modules-left,
+.modules-right,
+.modules-center {
+    padding: 4px 0;
+}
+
+/* ── Base module reset ───────────────────────────────── */
+#clock,
+#workspaces,
+#scratchpad,
+#custom-notification,
+#custom-media,
+#idle_inhibitor,
+#pulseaudio,
+#network,
+#backlight,
+#battery,
+#custom-power {
+    color: #a89880;
+    padding: 10px 0;
+    margin: 0 5px;
+    background: transparent;
+    border-radius: 10px;
+    min-width: 50px;
+}
+
+/* ═══════════════════════════════════════════════════════
+   C L O C K
+   The heartbeat of the spine.
+   Hours: large, authoritative — the chapter number.
+   Minutes: smaller, subordinate — the page number.
+   Two separate labels stacked via Waybar's format.
+   ═══════════════════════════════════════════════════════ */
+#clock {
+    color: #d4c9b8;
+    padding: 16px 0 12px;
+    margin: 8px 5px 4px;
+    background: rgba(36, 38, 46, 0.85);
+    border-radius: 14px;
+    min-width: 50px;
+
+    /* Dramatic sizing — hours feel monumental */
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+
+    /* The amber bookmark — a sliver of warmth at the base */
+    border: 2px solid rgba(201, 169, 110, 0.5);
+}
+
+/* ── Workspaces ──────────────────────────────────────── */
+#workspaces {
+    background: rgba(36, 38, 46, 0.75);
+    border-radius: 12px;
+    padding: 6px 0;
+    margin: 4px 5px;
+    min-width: 50px;
+}
+
+#workspaces button {
+    min-width: 50px;
+    padding: 7px 0;
+    margin: 1px 0;
+    color: #a89880;
+    font-size: 20px;
+    border-radius: 8px;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    transition: color 160ms ease, background 160ms ease;
+}
+
+#workspaces button:hover {
+    background: rgba(201, 169, 110, 0.07);
+}
+
+#workspaces button.focused {
+    color: #c9a96e;
+    background: rgba(201, 169, 110, 0.11);
+}
+
+#workspaces button.urgent {
+    color: #e07b54;
+    background: rgba(224, 123, 84, 0.1);
+    animation: urgentPulse 2s ease-in-out infinite;
+}
+
+@keyframes urgentPulse {
+    0%   { opacity: 1; }
+    50%  { opacity: 0.45; }
+    100% { opacity: 1; }
+}
+
+/* ── Scratchpad ──────────────────────────────────────── */
+#scratchpad {
+    margin: 2px 5px;
+    min-width: 50px;
+}
+
+/* ── Notifications ───────────────────────────────────── */
+#custom-notification {
+    margin: 2px 5px 10px;
+    min-width: 50px;
+}
+
+#custom-notification.notification {
+    color: #c9a96e;
+}
+
+#custom-notification.dnd-none,
+#custom-notification.dnd-notification {
+    color: #2e3140;
+}
+
+/* ── Media: The center whisper ───────────────────────── */
+#custom-media {
+    color: #4e5670;
+    padding: 12px 0;
+    margin: 6px 5px;
+    background: rgba(36, 38, 46, 0.5);
+    border-radius: 12px;
+    min-width: 50px;
+}
+
+#custom-media.spotify {
+    color: #5db075;
+}
+
+/* ═══════════════════════════════════════════════════════
+   S Y S T E M  I S L A N D
+   One cohesive island for the bottom tray modules.
+   Rounded top on idle_inhibitor, rounded bottom on battery.
+   ═══════════════════════════════════════════════════════ */
+#idle_inhibitor,
+#pulseaudio,
+#network,
+#backlight,
+#battery {
+    padding: 9px 0;
+    margin: 0 5px;
+    min-width: 50px;
+}
+
+#idle_inhibitor {
+    margin-top: 10px;
+    background: rgba(36, 38, 46, 0.75);
+    border-radius: 14px 14px 4px 4px;
+    padding-top: 10px;
+}
+
+#pulseaudio,
+#network,
+#backlight {
+    background: rgba(36, 38, 46, 0.75);
+    border-radius: 4px;
+}
+
+#battery {
+    background: rgba(36, 38, 46, 0.75);
+    border-radius: 4px 4px 14px 14px;
+    padding-bottom: 10px;
+    margin-bottom: 8px;
+}
+
+/* ── System module hover ─────────────────────────────── */
+#idle_inhibitor:hover,
+#pulseaudio:hover,
+#network:hover,
+#backlight:hover,
+#battery:hover {
+    color: #d4c9b8;
+    background: rgba(55, 59, 74, 0.9);
+}
+
+/* ── Module states ───────────────────────────────────── */
+#idle_inhibitor.activated { color: #c9a96e; }
+
+#pulseaudio.muted { color: #2e3140; }
+
+#network.disconnected { color: #c04f4f; }
+#network.wifi         { color: #a89880; }
+#network.ethernet     { color: #8aab8a; }
+
+#backlight { color: #a89880; }
+
+#battery.good     { color: #8aab8a; }
+#battery.warning  { color: #e07b54; }
+#battery.charging { color: #8aab8a; }
+#battery.plugged  { color: #6b9ea8; }
+
+#battery.critical {
+    color: #c04f4f;
+    animation: criticalBreath 1.5s ease-in-out infinite;
+}
+
+@keyframes criticalBreath {
+    0%   { opacity: 1; }
+    50%  { opacity: 0.35; }
+    100% { opacity: 1; }
+}
+
+/* ── Power: The final word ───────────────────────────── */
+#custom-power {
+    color: #a89880;
+    background: rgba(36, 38, 46, 0.75);
+    border-radius: 12px;
+    padding: 10px 0;
+    margin: 2px 5px 10px;
+    min-width: 50px;
+}
+
+#custom-power:hover {
+    color: #c04f4f;
+    background: rgba(192, 79, 79, 0.1);
+}
+
+/* ── Scrollbar ───────────────────────────────────────── */
+scrollbar,
+scrollbar slider {
+    background: transparent;
+    min-width: 0;
+    min-height: 0;
+}

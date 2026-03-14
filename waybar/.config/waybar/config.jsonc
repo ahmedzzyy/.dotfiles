@@ -1,0 +1,209 @@
+// -*- mode: jsonc -*-
+// ┌─────────────────────────────────────────┐
+// │        T H E  M I D N I G H T           │
+// │              L I B R A R Y              │
+// │   A vertical spine. A quiet companion.  │
+// └─────────────────────────────────────────┘
+{
+    "layer": "top",
+    "position": "left",
+    "width": 72,
+    "spacing": 0,
+    "exclusive": true,
+    "passthrough": false,
+    "gtk-layer-shell": true,
+
+    // ── The Spine: top to bottom ──────────────────
+    "modules-left": [
+        "clock",
+        "sway/workspaces",
+        "sway/scratchpad",
+        "custom/notification"
+    ],
+    "modules-center": [
+        "custom/media"
+    ],
+    "modules-right": [
+        "idle_inhibitor",
+        "pulseaudio",
+        "network",
+        "backlight",
+        "battery",
+        "custom/power"
+    ],
+
+    // ── Clock: The heartbeat ──────────────────────
+    "clock": {
+        "tooltip-format": "<big>{:%B %Y}</big>\n<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode": "month",
+            "on-scroll": 1,
+            "format": {
+                "today": "<span color='#c9a96e'><b>{}</b></span>"
+            }
+        },
+        // Hours stacked above minutes — like a page number
+        "format": "{:%H\n%M}",
+        "interval": 10
+    },
+
+    // ── Workspaces: The chapters ──────────────────
+    "sway/workspaces": {
+        "disable-scroll": false,
+        "all-outputs": false,
+        "format": "{icon}",
+        "format-icons": {
+            "1": "󰎤",
+            "2": "󰎧",
+            "3": "󰎪",
+            "4": "󰎭",
+            "5": "󰎱",
+            "6": "󰎴",
+            "7": "󰎷",
+            "8": "󰎺",
+            "9": "󰎽",
+            "urgent":  "󱄑",
+            "focused": "󰮯",
+            "default": "󰊠"
+        },
+        "persistent-workspaces": {
+            "1": [],
+            "2": [],
+            "3": []
+        }
+    },
+
+    // ── Scratchpad: The marginalia ────────────────
+    "sway/scratchpad": {
+        "format": "{icon}",
+        "show-empty": false,
+        "format-icons": ["", "󰘔"],
+        "tooltip": true,
+        "tooltip-format": "{app}: {title}"
+    },
+
+    // ── Media: The whisper in the center ─────────
+    "custom/media": {
+        "format": "{icon}",
+        "return-type": "json",
+        "max-length": 20,
+        "format-icons": {
+            "spotify": "󰓇",
+            "default": "󰝚"
+        },
+        "escape": true,
+        "rotate": 90,
+        "tooltip": true,
+        "exec": "python $HOME/.config/waybar/mediaplayer.py 2> /dev/null"
+    },
+
+    // ── Idle Inhibitor: The candlelight ──────────
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "󰛐",
+            "deactivated": "󰛑"
+        },
+        "tooltip": true,
+        "tooltip-format-activated": "Awake — system will not sleep",
+        "tooltip-format-deactivated": "Resting — system may sleep"
+    },
+
+    // ── Pulseaudio: The ambient tone ─────────────
+    "pulseaudio": {
+        "format": "{icon}",
+        "format-muted": "󰝟",
+        "format-icons": {
+            "headphone":  "󰋋",
+            "hands-free": "󰋎",
+            "headset":    "󰋎",
+            "phone":      "󰏲",
+            "portable":   "󰏲",
+            "car":        "󰄋",
+            "default":    ["󰕿", "󰖀", "󰕾"]
+        },
+        "tooltip": true,
+        "tooltip-format": "{volume}%  {desc}",
+        "on-click": "pavucontrol",
+        "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +2%",
+        "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -2%"
+    },
+
+    // ── Network: The signal ───────────────────────
+    "network": {
+        "format-wifi":        "󰤨",
+        "format-ethernet":    "󰈀",
+        "format-disconnected": "󰤭",
+        "format-linked":      "󰤫",
+        "tooltip-format-wifi": "{essid}  {signalStrength}%",
+        "tooltip-format-ethernet": "{ifname}  {ipaddr}",
+        "tooltip-format-disconnected": "No connection",
+        "on-click": "nm-connection-editor"
+    },
+
+    // ── Backlight: The lamp ───────────────────────
+    "backlight": {
+        "format": "{icon}",
+        "tooltip-format": "Brightness {percent}%",
+        "format-icons": ["󰌶", "󱩎", "󱩏", "󱩐", "󱩑", "󱩒", "󱩓", "󱩔", "󰛨"],
+        "on-scroll-up": "brightnessctl set +5%",
+        "on-scroll-down": "brightnessctl set 5%-",
+        "smooth-scrolling-threshold": 1
+    },
+
+    // ── Battery: The life force ───────────────────
+    "battery": {
+        "states": {
+            "full":     100,
+            "good":     90,
+            "warning":  30,
+            "critical": 15
+        },
+        "format":          "{icon}",
+        "format-full":     "󰁹",
+        "format-charging": "󰂄",
+        "format-plugged":  "󰚥",
+        "format-alt":      "{icon}",
+        "tooltip-format":  "{capacity}%  {timeTo}",
+        "format-icons":    ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+        "interval": 30
+    },
+
+    // ── Notifications: The letters ────────────────
+    "custom/notification": {
+        "tooltip": true,
+        "format": "{icon}",
+        "format-icons": {
+            "notification":               "󰂚",
+            "none":                       "󰂜",
+            "dnd-notification":           "󰂛",
+            "dnd-none":                   "󰪑",
+            "inhibited-notification":     "󰂚",
+            "inhibited-none":             "󰂜",
+            "dnd-inhibited-notification": "󰂛",
+            "dnd-inhibited-none":         "󰪑"
+        },
+        "return-type": "json",
+        "exec-if": "which swaync-client",
+        "exec": "swaync-client -swb",
+        "on-click": "swaync-client -t -sw",
+        "on-click-right": "swaync-client -d -sw",
+        "escape": true
+    },
+
+    // ── Power: The closing of the book ────────────
+    "custom/power": {
+        "format": "󰐥",
+        "tooltip": true,
+        "tooltip-format": "Power menu",
+        "menu": "on-click",
+        "menu-file": "$HOME/.config/waybar/power_menu.xml",
+        "menu-actions": {
+            "shutdown":  "systemctl poweroff",
+            "reboot":    "systemctl reboot",
+            "suspend":   "systemctl suspend",
+            "hibernate": "systemctl hibernate"
+        }
+    }
+}
+
